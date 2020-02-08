@@ -1,0 +1,56 @@
+﻿
+    <StackLayout Orientation="StackOrientation.Horizontal" HorizontalOptions="LayoutOptions.Center">
+        <Label Text="Customer Details." TextColor="Color.Black" FontSize="30"></Label>
+    </StackLayout>
+
+
+<Frame CornerRadius="10" BackgroundColor="Color.Yellow">   
+
+    <StackLayout Orientation="StackOrientation.Horizontal" HorizontalOptions="LayoutOptions.Center">
+         
+        <Entry @bind-Text="@MyName" Placeholder="Add New Name......" HorizontalOptions="LayoutOptions.FillAndExpand" WidthRequest="300"></Entry>
+    </StackLayout>
+</Frame>
+<Frame CornerRadius="10" BackgroundColor="Color.LightSalmon">
+    <StackLayout Orientation="StackOrientation.Horizontal" HorizontalOptions="LayoutOptions.Center">
+        <Button OnClick="@AddCustomer"   Text="Add Customer" BackgroundColor="Color.DarkRed" TextColor="Color.White"/>
+        <Button OnClick="@ClearCustomer" Text="Clear Customer" BackgroundColor="Color.DarkRed" TextColor="Color.White" />
+    </StackLayout>
+</Frame>
+
+@foreach (var customer in customers)
+{
+    <Frame CornerRadius="10" BackgroundColor="Color.LightGreen">
+        <StackLayout Orientation="StackOrientation.Horizontal" HorizontalOptions="LayoutOptions.Center">
+            <Label Text="@customer.Name"></Label>
+        </StackLayout>
+    </Frame>
+}
+
+@code {
+
+    string MyName = string.Empty;
+
+    List<CustomerDetails> customers = new List<CustomerDetails>();
+
+    void AddCustomer()
+    {
+        if (string.IsNullOrEmpty(MyName))
+        {
+            Application.Current.MainPage.DisplayAlert("Error","Enter Customer Details","OK");
+            return;
+        }
+
+        customers.Add(new CustomerDetails 
+        {
+           Name = MyName,
+        });
+
+        MyName = string.Empty;
+    }
+
+    void ClearCustomer()
+    {
+        customers = new List<CustomerDetails>();
+    }
+}
